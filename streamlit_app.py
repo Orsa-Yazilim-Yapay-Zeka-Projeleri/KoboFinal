@@ -22,11 +22,14 @@ from chromadb.config import Settings
 from chromadb import PersistentClient
 import chromadb
 from langchain.chains import ConversationalRetrievalChain
+from my_py_settings import settings_variable
 
+hugging_face_api_key = settings_variable.HUGGING_FACE_API_KEY
+mistral_api_key = settings_variable.MISTRAL_API_KEY
 
 # api_key = os.environ.get("OLLAMA_API_KEY")
 
-huggingface_api_key = SecretStr("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")
+huggingface_api_key = SecretStr(hugging_face_api_key)
 secret_str_api_key = huggingface_api_key.get_secret_value()
 
 db_path = "./vectordb"
@@ -51,8 +54,7 @@ vector_db = Chroma(
 )
 
 
-# vectordb was deleted
-api_key = os.environ.get("oJ6wgJeUMlciaLyoojF2OUancT1FoOAe")
+
 
 
 
@@ -90,7 +92,7 @@ if asked_question:
 
 # command line 
 
-    llm = ChatMistralAI(model_name="magistral-small-2509",api_key="oJ6wgJeUMlciaLyoojF2OUancT1FoOAe")
+    llm = ChatMistralAI(model_name="magistral-small-2509",api_key=mistral_api_key)
     document_chain = create_stuff_documents_chain(llm=llm,prompt=prompt)
     retriever = vector_db.as_retriever(search_kwargs={"k": 3})
     retriever_chain = create_retrieval_chain(retriever,document_chain)
